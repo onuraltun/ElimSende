@@ -52,7 +52,7 @@ namespace ElimSende
                         }
                     }
 
-                    Thread.Sleep(100);
+                    Thread.Sleep(10);
                 } while (trace);
 
                 return null;
@@ -60,12 +60,16 @@ namespace ElimSende
 
             if (trace && !string.IsNullOrWhiteSpace(result))
             {
-                var buttons = driver.FindElements(By.Id("quick_order_sell"));
+                var sellButtons = driver.FindElements(By.Id("quick_order_sell"));
 
-                foreach (var button in buttons)
+                foreach (var button in sellButtons)
                 {
                     button.Click();
                 }
+
+                var orderEditButton = driver.FindElement(By.ClassName("cancelBtn"));
+
+                orderEditButton.Click();
             }
         }
 
