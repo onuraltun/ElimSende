@@ -25,7 +25,7 @@ jobs:
           restore-keys: ${{ runner.os }}-sonar
       - name: Setup MSBuild Path
         env:
-          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
         uses: warrenbuckley/Setup-MSBuild@v1
       - name: Setup NuGet
         uses: NuGet/setup-nuget@v1.0.2
