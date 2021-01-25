@@ -28,6 +28,8 @@ jobs:
           ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
         uses: warrenbuckley/Setup-MSBuild@v1
       - name: Setup NuGet
+        env:
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
         uses: NuGet/setup-nuget@v1.0.2
       - name: Cache SonarCloud scanner
         id: cache-sonar-scanner
