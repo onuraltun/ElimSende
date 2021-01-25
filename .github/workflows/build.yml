@@ -36,6 +36,8 @@ jobs:
         run: |
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+      - name: install msbuild
+        uses: actions/checkout@v2, microsoft/setup-msbuild@v1, NuGet/setup-nuget@v1.0.5
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
@@ -43,26 +45,6 @@ jobs:
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"onuraltun_ElimSende" /o:"onuraltun" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-      - name: Build
-        uses: actions/checkout@v2
-      - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v1
-      - name: Setup NuGet
-        uses: NuGet/setup-nuget@v1.0.5
-      - name: Restore NuGet packages
-        run: nuget restore ElimSende.sln
-      - name: Build the Solution
-        run: msbuild ElimSende.sln
-      - name: Install SonarCloud scanner
-        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-        shell: powershell
-        run: |
-          New-Item -Path .\.sonar\scanner -ItemType Directory
-          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
-      - name: Build and analyze
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        shell: powershell
-        run: |
+          nuget restore ElimSende.sln
+          msbuild ElimSende.sln
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
