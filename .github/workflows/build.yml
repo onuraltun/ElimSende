@@ -37,7 +37,11 @@ jobs:
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
       - name: install msbuild
-        uses: actions/checkout@v2, microsoft/setup-msbuild@v1, NuGet/setup-nuget@v1.0.5
+        uses: actions/checkout@v2
+      - name: msbuild
+        uses: microsoft/setup-msbuild@v1
+      - name: nuget
+        uses: NuGet/setup-nuget@v1.0.5
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
